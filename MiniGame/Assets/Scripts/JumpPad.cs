@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class JumpPad : MonoBehaviour {
 
+    public GameObject playerFetcher;
     public PlayerMovement player; 
 
 	// Use this for initialization
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        playerFetcher = GameObject.FindWithTag("Player");
+        player = playerFetcher.GetComponent<PlayerMovement>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {

@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField]
     private AudioClip hurt;
     public CharacterController controller;
-    public GameObject Player;
+    public GameObject Player, Camera;
     public float speed;
     public float startSpeed;
     public float gravity;
@@ -28,6 +28,8 @@ public class PlayerMovement : MonoBehaviour {
     public float boostHeight;
     public float speedBoost;
     public float speedDecay;
+    public float jumpCooldown;
+    public float cooldownCounter;
     public Vector3 spawn;
 
     public int collection;
@@ -46,13 +48,6 @@ public class PlayerMovement : MonoBehaviour {
     bool landed;
     public bool victory;
 
-    //control vars
-    public HandsInput rightHand, leftHand;
-
-
-
-
-
     // Update is called once per frame
     private void Start()
     {
@@ -63,32 +58,34 @@ public class PlayerMovement : MonoBehaviour {
         spawn = new Vector3(-45f, 1.9f, -45f);
         collection = 0;
         audioSource = GetComponent<AudioSource>();
-
-
-
-
-
-
+        controller = Player.GetComponent<CharacterController>();
+        cooldownCounter = 0.1f;
+        jumpCooldown = 0f;
 
     }
 
-    void Update()
+    private void Update()
     {
-
-        Debug.Log(collection);
         if (collection == 4)
         {
             victory = true;
         }
-
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
         if (respawn)
         {
             GetComponent<AudioSource>().PlayOneShot(hurt);
             Player.transform.position = spawn;
             respawn = false;
         }
+        if (jumpCooldown > 0f)
+        {
+            // Subtract the difference of the last time the method has been called
+            jumpCooldown -= Time.deltaTime;
+        }
+    }
+    void FixedUpdate()
+    {
+
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
         {
@@ -103,11 +100,18 @@ public class PlayerMovement : MonoBehaviour {
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        Vector3 move = transform.right * x + transform.forward * z;
+        Quaternion headYaw = Quaternion.Euler(0, Camera.transform.eulerAngles.y, 0);
+        Vector3 direction = headYaw * new Vector3(x, 0, z);
+
+        //controller.Move(direction);
+        Vector3 move = headYaw * (transform.right * x + transform.forward * z);
+        
 
         BoostPad(onBoostPad, move);
 
         ConstantPhysics();
+        
+        
 
 
     }
@@ -170,14 +174,6 @@ public class PlayerMovement : MonoBehaviour {
 
         controller.Move(velocity * Time.deltaTime);
     }
-   
-    
-        
-        /*public bool Jump( )
-    {
-        return true;
-    }*/
-
 
     public void OnJumpPad()
     {

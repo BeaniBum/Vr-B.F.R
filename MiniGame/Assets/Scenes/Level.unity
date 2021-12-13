@@ -185,6 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9529c8b1db72eda49acb3d29fca43c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerFetcher: {fileID: 0}
   player: {fileID: 0}
 --- !u!65 &908033
 BoxCollider:
@@ -619,6 +620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9529c8b1db72eda49acb3d29fca43c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerFetcher: {fileID: 0}
   player: {fileID: 0}
 --- !u!65 &151913668
 BoxCollider:
@@ -5968,6 +5970,12 @@ PrefabInstance:
       objectReference: {fileID: 1419553897}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8576bae85945bb4d9e887aa90d91262, type: 3}
+--- !u!1 &377337897 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3524118770536070941, guid: c878f5cccc3b53a4e9da254e76942019,
+    type: 3}
+  m_PrefabInstance: {fileID: 3524118770910693172}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &432809416 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4068816406006768, guid: 6018fb44a22e609468ebfbe26307b219,
@@ -11229,6 +11237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9529c8b1db72eda49acb3d29fca43c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerFetcher: {fileID: 0}
   player: {fileID: 0}
 --- !u!65 &683490625
 BoxCollider:
@@ -11339,6 +11348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9529c8b1db72eda49acb3d29fca43c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerFetcher: {fileID: 0}
   player: {fileID: 0}
 --- !u!65 &708229503
 BoxCollider:
@@ -13457,6 +13467,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9529c8b1db72eda49acb3d29fca43c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerFetcher: {fileID: 0}
   player: {fileID: 0}
 --- !u!65 &1637036909
 BoxCollider:
@@ -13793,6 +13804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9529c8b1db72eda49acb3d29fca43c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerFetcher: {fileID: 0}
   player: {fileID: 0}
 --- !u!65 &1790931719
 BoxCollider:
@@ -14711,6 +14723,16 @@ PrefabInstance:
         type: 3}
       propertyPath: speedDecay
       value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3524118771658107741, guid: c878f5cccc3b53a4e9da254e76942019,
+        type: 3}
+      propertyPath: Camera
+      value: 
+      objectReference: {fileID: 377337897}
+    - target: {fileID: 3524118771658107741, guid: c878f5cccc3b53a4e9da254e76942019,
+        type: 3}
+      propertyPath: speed
+      value: 23
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c878f5cccc3b53a4e9da254e76942019, type: 3}

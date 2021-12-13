@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class BoostPad : MonoBehaviour {
 
+    public GameObject playerFetcher;
     public PlayerMovement player;
+    
 
     // Use this for initialization
     void Start()
     {
-
+        playerFetcher = GameObject.FindWithTag("Player");
+        player = playerFetcher.GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
