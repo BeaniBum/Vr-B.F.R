@@ -102,8 +102,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5107535080141262299}
+  - component: {fileID: 29500651638192974}
   m_Layer: 0
-  m_Name: Hand
+  m_Name: Left Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,3 +125,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &29500651638192974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8254680732444447486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99e438fe7405a2442b7adda473d21c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controllerCharacteristics: 320
+  player: {fileID: 0}
+  playerFetcher: {fileID: 0}
+  State: {fileID: 0}
+  right: 0
+  left: 1
+  rightPrimaryPressed: 0
+  rightSecondaryPressed: 0
+  rightTriggerPressed: 0
+  leftPrimaryPressed: 0
+  leftSecondaryPressed: 0
+  leftTriggerPressed: 0

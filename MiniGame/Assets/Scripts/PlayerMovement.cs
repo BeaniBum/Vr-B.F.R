@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using UnityEngine.XR;
+
 
 public class PlayerMovement : MonoBehaviour {
 
@@ -35,8 +37,8 @@ public class PlayerMovement : MonoBehaviour {
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
 
-    Vector3 velocity;
-    bool isGrounded;
+    public Vector3 velocity;
+    public bool isGrounded;
     bool onJumpPad;
     bool onBoostPad;
     bool triggered;
@@ -44,37 +46,53 @@ public class PlayerMovement : MonoBehaviour {
     bool landed;
     public bool victory;
 
+    //control vars
+    public HandsInput rightHand, leftHand;
+
+
+
+
+
     // Update is called once per frame
     private void Start()
     {
+
         victory = false;
         triggered = false;
         startSpeed = speed;
         spawn = new Vector3(-45f, 1.9f, -45f);
         collection = 0;
         audioSource = GetComponent<AudioSource>();
+
+
+
+
+
+
+
     }
 
-    void Update ()
+    void Update()
     {
+
         Debug.Log(collection);
-        if(collection == 4)
+        if (collection == 4)
         {
             victory = true;
         }
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        if(respawn)
+        if (respawn)
         {
             GetComponent<AudioSource>().PlayOneShot(hurt);
             Player.transform.position = spawn;
             respawn = false;
         }
 
-        if (isGrounded && velocity.y <0)
+        if (isGrounded && velocity.y < 0)
         {
-            if(!landed)
+            if (!landed)
             {
                 GetComponent<AudioSource>().PlayOneShot(land);
                 landed = true;
@@ -85,11 +103,46 @@ public class PlayerMovement : MonoBehaviour {
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        Vector3 move = transform.right * x +transform.forward * z;
+        Vector3 move = transform.right * x + transform.forward * z;
 
-        
+        BoostPad(onBoostPad, move);
 
-        if(onBoostPad)
+        ConstantPhysics();
+
+
+    }
+    public void Jump(bool rightPrimaryPressed, bool groundCheck)
+    {
+        if (rightPrimaryPressed && groundCheck)
+        {
+            landed = false;
+            if (onJumpPad)
+            {
+                GetComponent<AudioSource>().PlayOneShot(boostJump);
+                velocity.y = Mathf.Sqrt(jumpHeight + boostHeight * -2f * gravity);
+            }
+            else
+            {
+                GetComponent<AudioSource>().PlayOneShot(normalJump);
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            }
+        }
+
+    }
+    public void BoostPad(bool status, Vector3 move)
+        {
+         if (!status)
+        {
+            if (speed > startSpeed)
+            {
+                speed -= speedDecay;
+            }
+            if (speed < startSpeed)
+            {
+                speed = startSpeed;
+            }
+        }
+        if (status)
         {
             isGrounded = true;
             if (triggered == false)
@@ -98,7 +151,7 @@ public class PlayerMovement : MonoBehaviour {
                 speed += speedBoost;
                 triggered = true;
             }
-            
+
             controller.Move(move * speed * Time.deltaTime);
 
 
@@ -109,45 +162,22 @@ public class PlayerMovement : MonoBehaviour {
 
         }
 
-        if(!onBoostPad)
-        {
-            if(speed>startSpeed)
-            {
-                speed -= speedDecay ;
-            }
-            if(speed<startSpeed)
-            {
-                speed = startSpeed;
-            }
-        }
+    }
 
- 
-       
-            
-        
-        
-
-        if(Input.GetButtonDown("Jump") && isGrounded)
-        {
-            landed = false;
-            if(onJumpPad)
-            {
-                GetComponent<AudioSource>().PlayOneShot(boostJump);
-                velocity.y = Mathf.Sqrt(jumpHeight+boostHeight * -2f * gravity);
-            }
-            else
-            {
-                GetComponent<AudioSource>().PlayOneShot(normalJump);
-                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            }
-            
-        }
-
+    private void ConstantPhysics()
+    {
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
+    }
+   
+    
+        
+        /*public bool Jump( )
+    {
+        return true;
+    }*/
 
-	}
 
     public void OnJumpPad()
     {
