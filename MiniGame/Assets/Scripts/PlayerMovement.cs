@@ -119,6 +119,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (rightPrimaryPressed && groundCheck)
         {
+            
             landed = false;
             if (onJumpPad)
             {
@@ -130,6 +131,7 @@ public class PlayerMovement : MonoBehaviour {
                 GetComponent<AudioSource>().PlayOneShot(normalJump);
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
+            
         }
 
     }
