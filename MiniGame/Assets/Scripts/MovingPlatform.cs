@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour {
-    AudioSource audioSource;
+    public AudioSource audioSource;
     [SerializeField]
     private AudioClip platformSound;
 
