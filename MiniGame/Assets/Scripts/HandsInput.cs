@@ -33,7 +33,9 @@ public class HandsInput : MonoBehaviour
     public bool leftSecondaryPressed;
     public bool leftTriggerPressed;
 
-    private Vector2 inputAxis;
+    private Vector2 inputAxis,selectAxis;
+
+
 
     
 
@@ -69,8 +71,8 @@ public class HandsInput : MonoBehaviour
             targetDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool rightSecondaryPressed);
             targetDevice.TryGetFeatureValue(CommonUsages.triggerButton, out bool rightTriggerPressed);
             targetDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out inputAxis);
-
-            switch (State.activeState)
+            Debug.Log(State.CurrentState());
+            switch (State.CurrentState())
             {
                 case (States.Menu):
                     {
@@ -91,6 +93,7 @@ public class HandsInput : MonoBehaviour
                     }
                 case (States.Run):
                     {
+                        Debug.Log(inputAxis);
                         if (rightPrimaryPressed)
                         {
                             if (player.jumpCooldown <= 0 && rightPrimaryPressed)
@@ -111,7 +114,7 @@ public class HandsInput : MonoBehaviour
             targetDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool leftPrimaryPressed);
             targetDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool leftSecondaryPressed);
             targetDevice.TryGetFeatureValue(CommonUsages.triggerButton, out bool leftTriggerPressed);
-            
+            //targetDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out selectAxis);
         }
 
        // Debug.Log(State.CurrentState());
