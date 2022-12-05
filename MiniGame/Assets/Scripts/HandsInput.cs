@@ -98,7 +98,7 @@ public class HandsInput : MonoBehaviour
                         {
                             if (player.jumpCooldown <= 0 && rightPrimaryPressed)
                             {
-                                player.Jump(rightPrimaryPressed, player.isGrounded);
+                                //player.Jump(player.isGrounded);
                                 player.jumpCooldown = player.cooldownCounter;
                             }
                            

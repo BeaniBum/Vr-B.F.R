@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 //using UnityEngine.XR;
 
 
 public class PlayerMovement : MonoBehaviour {
-
+    public VrPrototype controls;
     AudioSource audioSource;
     [SerializeField]
     private AudioClip normalJump;
@@ -47,8 +48,13 @@ public class PlayerMovement : MonoBehaviour {
     bool respawn;
     bool landed;
     public bool victory;
+    private void OnEnable()
+    {
+       // controls = new VrPrototype();
+       // controls.Player.Enable();
 
-    // Update is called once per frame
+        //controls.Player.Jump.performed += Jump;
+    }
     private void Start()
     {
 
@@ -84,7 +90,7 @@ public class PlayerMovement : MonoBehaviour {
     }
     void FixedUpdate()
     {
-
+        Debug.Log(isGrounded);
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
@@ -97,17 +103,17 @@ public class PlayerMovement : MonoBehaviour {
             velocity.y = -2f;
         }
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+       // float x = Input.GetAxis("Horizontal");
+        //float z = Input.GetAxis("Vertical");
 
         Quaternion headYaw = Quaternion.Euler(0, Camera.transform.eulerAngles.y, 0);
-        Vector3 direction = headYaw * new Vector3(x, 0, z);
+       // Vector3 direction = headYaw * new Vector3(x, 0, z);
 
         //controller.Move(direction);
-        Vector3 move = headYaw * (transform.right * x + transform.forward * z);
+        //Vector3 move = headYaw * (transform.right * x + transform.forward * z);
         
 
-        BoostPad(onBoostPad, move);
+       // BoostPad(onBoostPad, move);
 
         ConstantPhysics();
         
@@ -115,11 +121,12 @@ public class PlayerMovement : MonoBehaviour {
 
 
     }
-    public void Jump(bool rightPrimaryPressed, bool groundCheck)
+    public void Jump( bool isGrounded)
     {
-        if (rightPrimaryPressed && groundCheck)
+        Debug.Log("Jump" + isGrounded);
+        
+        if (isGrounded == true)
         {
-            
             landed = false;
             if (onJumpPad)
             {
@@ -132,6 +139,10 @@ public class PlayerMovement : MonoBehaviour {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
             
+        }
+        else
+        {
+            Debug.Log("Nope");
         }
 
     }
