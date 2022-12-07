@@ -32,9 +32,13 @@ public class PlayerMovement : MonoBehaviour {
     public float jumpCooldown;
     public float cooldownCounter;
     public Vector3 spawn;
+    public Vector3 direction;
+    public Vector2 inputVector;
 
     public int collection;
 
+
+    //public PlayerMovement playerMovement = new PlayerMovement();
 
     public Transform groundCheck;
     public float groundDistance = 0.4f;
@@ -48,6 +52,7 @@ public class PlayerMovement : MonoBehaviour {
     bool respawn;
     bool landed;
     public bool victory;
+    public Quaternion headYaw;
     private void OnEnable()
     {
        // controls = new VrPrototype();
@@ -57,7 +62,7 @@ public class PlayerMovement : MonoBehaviour {
     }
     private void Start()
     {
-
+        
         victory = false;
         triggered = false;
         startSpeed = speed;
@@ -70,6 +75,59 @@ public class PlayerMovement : MonoBehaviour {
 
     }
 
+    public void MovementPerformed(InputAction.CallbackContext context)
+    {
+        
+        
+        if (context.performed)
+        {
+            // Debug.Log("Moveeeeeeeeeeeee" + context);
+           
+            inputVector = context.ReadValue<Vector2>();
+            Debug.Log(context.ReadValue<Vector2>());
+          
+            // float x = inputVector.x;
+           // float z = inputVector.y;
+            //direction = headYaw * new Vector3(x, 0, z);
+        }
+       /* if (context.canceled)
+        {
+            inputVector = new Vector2(0, 0);
+        }*/
+
+       // Vector3 move = headYaw * (transform.right * x + transform.forward * z);
+
+    }
+    public void Jump(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+
+           // Debug.Log("Jump " + isGrounded);
+
+            if (isGrounded == true)
+            {
+                landed = false;
+                if (onJumpPad)
+                {
+                    GetComponent<AudioSource>().PlayOneShot(boostJump);
+                    velocity.y = Mathf.Sqrt(jumpHeight + boostHeight * -2f * gravity);
+                }
+                else
+                {
+                    GetComponent<AudioSource>().PlayOneShot(normalJump);
+                    velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                }
+
+            }
+            else
+            {
+                Debug.Log("Nope");
+            }
+        }
+
+
+    }
     private void Update()
     {
         if (collection == 4)
@@ -90,7 +148,8 @@ public class PlayerMovement : MonoBehaviour {
     }
     void FixedUpdate()
     {
-        Debug.Log(isGrounded);
+        //Player.GetComponent<isGrounded>;
+        //Debug.Log(isGrounded);
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
@@ -103,50 +162,20 @@ public class PlayerMovement : MonoBehaviour {
             velocity.y = -2f;
         }
 
-       // float x = Input.GetAxis("Horizontal");
-        //float z = Input.GetAxis("Vertical");
 
-        Quaternion headYaw = Quaternion.Euler(0, Camera.transform.eulerAngles.y, 0);
-       // Vector3 direction = headYaw * new Vector3(x, 0, z);
-
-        //controller.Move(direction);
-        //Vector3 move = headYaw * (transform.right * x + transform.forward * z);
+        headYaw = Quaternion.Euler(0, Camera.transform.eulerAngles.y, 0);
+        Vector3 direction = headYaw * new Vector3(inputVector.x, 0, inputVector.y);
         
-
-       // BoostPad(onBoostPad, move);
-
+        
+        Vector3 move = headYaw * (transform.right * inputVector.x + transform.forward * inputVector.y);
+        BoostPad(onBoostPad, move);
         ConstantPhysics();
-        
-        
 
 
     }
-    public void Jump( bool isGrounded)
-    {
-        Debug.Log("Jump" + isGrounded);
-        
-        if (isGrounded == true)
-        {
-            landed = false;
-            if (onJumpPad)
-            {
-                GetComponent<AudioSource>().PlayOneShot(boostJump);
-                velocity.y = Mathf.Sqrt(jumpHeight + boostHeight * -2f * gravity);
-            }
-            else
-            {
-                GetComponent<AudioSource>().PlayOneShot(normalJump);
-                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            }
-            
-        }
-        else
-        {
-            Debug.Log("Nope");
-        }
-
-    }
-    public void BoostPad(bool status, Vector3 move)
+  
+    
+    public void BoostPad(bool status, Vector3 vector3)
         {
          if (!status)
         {
@@ -169,25 +198,23 @@ public class PlayerMovement : MonoBehaviour {
                 triggered = true;
             }
 
-            controller.Move(move * speed * Time.deltaTime);
+            controller.Move(vector3 * speed * Time.deltaTime);
 
 
         }
         else
         {
-            controller.Move(move * speed * Time.deltaTime);
+            controller.Move(vector3 * speed * Time.deltaTime);
 
         }
 
     }
 
     private void ConstantPhysics()
-    {
+    { 
         velocity.y += gravity * Time.deltaTime;
-
-        controller.Move(velocity * Time.deltaTime);
+        controller.Move(velocity * Time.deltaTime);       
     }
-
     public void OnJumpPad()
     {
         onJumpPad = true;
@@ -200,8 +227,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public void OnBoostPad()
     {
-        onBoostPad = true;
-        
+        onBoostPad = true;   
     }
 
     public void OffBoostPad()

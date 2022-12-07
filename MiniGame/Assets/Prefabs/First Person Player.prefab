@@ -1134,6 +1134,8 @@ MonoBehaviour:
   jumpCooldown: 0
   cooldownCounter: 0
   spawn: {x: 0, y: 0, z: 0}
+  direction: {x: 0, y: 0, z: 0}
+  inputVector: {x: 0, y: 0}
   collection: 4
   groundCheck: {fileID: 3524118771517096539}
   groundDistance: 0.4
@@ -1143,6 +1145,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
   victory: 0
+  headYaw: {x: 0, y: 0, z: 0, w: 0}
 --- !u!82 &3524118771658107742
 AudioSource:
   m_ObjectHideFlags: 0
