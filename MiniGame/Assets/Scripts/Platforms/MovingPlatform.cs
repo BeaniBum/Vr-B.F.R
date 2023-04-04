@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour {
-    public AudioSource audioSource;
+    //public AudioSource audioSource;
     [SerializeField]
-    private AudioClip platformSound;
+    //private AudioClip platformSound;
 
     public GameObject Platform;
 
@@ -45,7 +45,7 @@ public class MovingPlatform : MonoBehaviour {
        // distance = 0f;
       //  limit = 8f;     
         startPlatformPos = Platform.transform.position;
-        audioSource = GetComponent<AudioSource>();
+       // audioSource = GetComponent<AudioSource>();
     }
 	
 	// Update is called once per frame
@@ -59,13 +59,13 @@ public class MovingPlatform : MonoBehaviour {
         if (distance >= limit)
         {
             flip = true;
-            GetComponent<AudioSource>().PlayOneShot(platformSound);
+            //GetComponent<AudioSource>().PlayOneShot(platformSound);
         }
 
         if (distance <= .2)
         {
             flip = false;
-            GetComponent<AudioSource>().PlayOneShot(platformSound);
+            //GetComponent<AudioSource>().PlayOneShot(platformSound);
         }
 
         if (forward)

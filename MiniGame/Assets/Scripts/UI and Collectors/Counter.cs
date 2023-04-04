@@ -10,12 +10,12 @@ public class Counter : MonoBehaviour {
     public Text challengeText;
     // Use this for initialization
     void Start () {
-        count = player.collection;
+        count = player.buildMaterial;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        count = player.collection;
+        count = player.buildMaterial;
         if (!player.victory)
         {
             textBox.text = count.ToString();

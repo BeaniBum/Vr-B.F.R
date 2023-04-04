@@ -49,6 +49,14 @@ public class @VrPrototype : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""SelectBlock"",
+                    ""type"": ""Button"",
+                    ""id"": ""b7997ac1-c0aa-4b52-91b0-9a69392d2354"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -269,6 +277,17 @@ public class @VrPrototype : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a8c0a174-e26c-4571-89ef-5283a238b28d"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": ""AxisDeadzone"",
+                    ""groups"": """",
+                    ""action"": ""SelectBlock"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -850,6 +869,7 @@ public class @VrPrototype : IInputActionCollection, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_SelectBlock = m_Player.FindAction("SelectBlock", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -915,6 +935,7 @@ public class @VrPrototype : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_SelectBlock;
     public struct PlayerActions
     {
         private @VrPrototype m_Wrapper;
@@ -923,6 +944,7 @@ public class @VrPrototype : IInputActionCollection, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @SelectBlock => m_Wrapper.m_Player_SelectBlock;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -944,6 +966,9 @@ public class @VrPrototype : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @SelectBlock.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectBlock;
+                @SelectBlock.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectBlock;
+                @SelectBlock.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectBlock;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -960,6 +985,9 @@ public class @VrPrototype : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @SelectBlock.started += instance.OnSelectBlock;
+                @SelectBlock.performed += instance.OnSelectBlock;
+                @SelectBlock.canceled += instance.OnSelectBlock;
             }
         }
     }
@@ -1120,6 +1148,7 @@ public class @VrPrototype : IInputActionCollection, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnSelectBlock(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

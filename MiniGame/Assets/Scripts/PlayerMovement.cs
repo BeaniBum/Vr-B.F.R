@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 //using UnityEngine.XR;
 
 
@@ -31,12 +32,13 @@ public class PlayerMovement : MonoBehaviour {
     public float speedDecay;
     public float jumpCooldown;
     public float cooldownCounter;
+    public int buildMaterial;
     public Vector3 spawn;
     public Vector3 direction;
     public Vector2 inputVector;
 
     public int collection;
-
+    public Timer timer;
 
     //public PlayerMovement playerMovement = new PlayerMovement();
 
@@ -53,6 +55,8 @@ public class PlayerMovement : MonoBehaviour {
     bool landed;
     public bool victory;
     public Quaternion headYaw;
+    
+
     private void OnEnable()
     {
        // controls = new VrPrototype();
@@ -62,29 +66,31 @@ public class PlayerMovement : MonoBehaviour {
     }
     private void Start()
     {
+        Debug.Log(SceneManager.GetActiveScene().name);
         
         victory = false;
         triggered = false;
         startSpeed = speed;
-        spawn = new Vector3(-45f, 1.9f, -45f);
+        Player.transform.position = spawn;
         collection = 0;
         audioSource = GetComponent<AudioSource>();
         controller = Player.GetComponent<CharacterController>();
         cooldownCounter = 0.1f;
         jumpCooldown = 0f;
+        //PlayerPrefs.DeleteAll();
 
     }
 
     public void MovementPerformed(InputAction.CallbackContext context)
     {
-        
+        //PlayerPrefs.GetFloat("LevelOne");
         
         if (context.performed)
         {
             // Debug.Log("Moveeeeeeeeeeeee" + context);
            
             inputVector = context.ReadValue<Vector2>();
-            Debug.Log(context.ReadValue<Vector2>());
+            //Debug.Log(context.ReadValue<Vector2>());
           
             // float x = inputVector.x;
            // float z = inputVector.y;
@@ -145,6 +151,7 @@ public class PlayerMovement : MonoBehaviour {
             // Subtract the difference of the last time the method has been called
             jumpCooldown -= Time.deltaTime;
         }
+        Debug.Log(timer.timeStart);
     }
     void FixedUpdate()
     {
@@ -243,6 +250,6 @@ public class PlayerMovement : MonoBehaviour {
     
     public void Collected()
     {
-        collection++;
+        buildMaterial++;
     }
 }

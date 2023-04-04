@@ -7,21 +7,22 @@ public class PointAndPressToPlace : MonoBehaviour
     public Material neutralMaterial;
     public Material hoverMaterial;
     public GameObject Slot;
-    public GameObject jumpPad;
-    public GameObject boostPad;
-    public GameObject movingPlatform;
+    public GameObject selection;
+    public GameObject Parent;
+    public GameObject Placed;
     public MeshRenderer Collider;
+
     public Vector3 position;
+
+    private StateManager statemanager;
+    public PlayerMovement playermovement;
 
 
     // Start is called before the first frame update
     void Start()
-    {
-       
-        //Collider = Slot.transform.GetChild(1).gameObject;
+    { 
         neutralMaterial = Collider.GetComponent<Renderer>().material;
-        position = Slot.transform.position;
-        
+        position = Slot.transform.position; 
     }
 
 
@@ -37,8 +38,14 @@ public class PointAndPressToPlace : MonoBehaviour
 
     public void replace()
     {
-        Instantiate(jumpPad, position,Slot.transform.rotation);
-        Destroy(Slot);
+        if(playermovement.buildMaterial > 0)
+        {
+            Placed = Instantiate(selection, position, Slot.transform.rotation);
+            Destroy(Slot);
+            Placed.transform.SetParent(Parent.transform);
+            playermovement.buildMaterial--;
+        }
+        
     }
 
     void Update()

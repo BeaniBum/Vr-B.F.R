@@ -36,6 +36,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "SelectBlock",
+                    "type": "Button",
+                    "id": "b7997ac1-c0aa-4b52-91b0-9a69392d2354",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -256,6 +264,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a8c0a174-e26c-4571-89ef-5283a238b28d",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "Hold",
+                    "processors": "AxisDeadzone",
+                    "groups": "",
+                    "action": "SelectBlock",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

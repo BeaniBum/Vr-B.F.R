@@ -12,18 +12,24 @@ public class Collector : MonoBehaviour {
     public float limit;
     public float speed;
     public bool flip;
+    public float rotateY;
+    public float rotateSpeed;
 
 
     // Use this for initialization
     void Start () {
 
         startPlatformPos = Collectable.transform.position;
-
+        rotateSpeed = 4;
     }
 	
 	// Update is called once per frame
 	void Update () {
-
+        if((rotateY % rotateSpeed) == 0)
+        {
+            transform.Rotate(0, rotateY, 0);
+        }
+        
         platformPos = Collectable.transform.position;
         distance = Vector3.Distance(startPlatformPos, platformPos);
 
@@ -45,7 +51,7 @@ public class Collector : MonoBehaviour {
         {
             transform.Translate(Vector3.down * speed * Time.deltaTime);
         }
-
+        rotateY++;
     }
     private void OnTriggerEnter(Collider other)
     {
